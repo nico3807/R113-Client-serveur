@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>R1.13 - TP2 Modèle client/serveur et échanges HTTP</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect x=%276%27 y=%2730%27 width=%2734%27 height=%2740%27 rx=%276%27 fill=%27%232f5fd9%27/%3E%3Crect x=%2760%27 y=%2718%27 width=%2734%27 height=%2764%27 rx=%276%27 fill=%27%231c2333%27/%3E%3Cpath d=%27M42 42 H58 M52 36 L58 42 L52 48 M58 58 H42 M48 52 L42 58 L48 64%27 stroke=%27%23b5560f%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="index">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+      <nav class="nav-wrap">
+        <a class="brand" href="index.html"
+          ><img src="img/logo_iut.jpg" alt="" />
+          <span
+            >R1.13 - Hébergement
+            <small>TP2 · Modèle client/serveur et échanges HTTP</small></span
+          ><img src="img/logo_mmi.jpg" alt="" />
+        </a>
+        <div class="site-nav">
+          <a href="index.html" data-nav="index">Accueil</a>
+          <a href="preparation.html" data-nav="preparation">Préparation</a>
+          <a href="partie1.html" data-nav="partie1">URL, DNS, ports</a>
+          <a href="partie2.html" data-nav="partie2">HTTP</a>
+          <a href="livrable.html" data-nav="livrable">Livrable</a>
+          <a href="memo.html" data-nav="memo">Mémo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="contenu">
+      <p class="eyebrow">TP2 - BUT MMI 1 · R1.13 Hébergement</p>
+      <h1>Visualisation du modèle client/serveur et des échanges HTTP</h1>
+      <p class="lede">
+        Ce travail pratique a pour but de démystifier les fondations techniques
+        du développement web. À travers les outils de développement de votre
+        navigateur, vous allez observer et analyser en temps réel la
+        communication entre le client (votre navigateur) et le serveur :
+        résolution DNS, rôle des ports, requêtes et réponses HTTP, codes de
+        statut et en-têtes comme <code>Content-Type</code> et
+        <code>User-Agent</code>.
+      </p>
+
+      <div class="grid cols-3" style="margin-top: 1.8rem">
+        <div class="card">
+          <p class="eyebrow">Objectif</p>
+          <p>
+            Comprendre le modèle client/serveur, le rôle des ports et
+            visualiser concrètement les requêtes/réponses HTTP à l'aide des
+            outils de développement.
+          </p>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Compétence ciblée</p>
+          <p>
+            Développer pour le web et les médias numériques (observation et
+            analyse).
+          </p>
+        </div>
+        <div class="card">
+          <p class="eyebrow">Matériel / logiciel</p>
+          <p>
+            Navigateur web (Chrome, Firefox, Edge, etc.) avec accès aux outils
+            de développement, et un terminal (Terminal macOS ou MobaXterm).
+          </p>
+        </div>
+      </div>
+
+      <h2>Déroulé du TP</h2>
+      <ul class="timeline">
+        <li><span><strong>Préparation</strong> - Configurer son navigateur : ouvrir les outils de développement et l'onglet Réseau.</span></li>
+        <li><span><strong>Partie 1 : les fondations</strong> (30 min) - Analyse d'une URL, rôle du DNS, ports. Questions Q1 à Q5.</span></li>
+        <li><span><strong>Partie 2 : la communication HTTP</strong> (60 min) - Requêtes et codes de statut 200/404, en-têtes, cookies. Questions Q6 à Q10.</span></li>
+        <li><span><strong>Livrable</strong> - Deux captures d'écran et les réponses aux 10 questions, réunies dans un compte rendu PDF à déposer sur Moodle.</span></li>
+      </ul>
+
+      <h2>Comment utiliser ce site</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>🧪 Des simulateurs pour comprendre</h3>
+          <p>
+            Un terminal <code>ping</code> / <code>nslookup</code> et un faux
+            navigateur avec son onglet « Réseau » permettent de s'entraîner sur
+            des sites d'exemple en <code>.test</code>, sans risque. Les
+            activités réussies sont cochées automatiquement.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🔎 Les observations dans ton vrai navigateur</h3>
+          <p>
+            Les questions portent sur ce que <strong>tu</strong> observes dans
+            ton navigateur et ton terminal (Google, Wikipédia, w3.org…). Les
+            captures du livrable doivent venir de tes vrais outils de
+            développement.
+          </p>
+        </div>
+      </div>
+
+      <details class="callout" style="margin-top: 2rem">
+        <summary><strong>Descriptif de la ressource R1.13 Hébergement</strong></summary>
+        <p>
+          Objectif : comprendre le fonctionnement général d'internet et
+          initier à l'administration de serveurs en gérant son poste de
+          travail :
+        </p>
+        <ul>
+          <li>Présentation de l'architecture de différents matériels (ordinateurs, tablettes, téléphones...) et découverte de ces éléments au travers des outils et interfaces des différents OS ;</li>
+          <li>Découverte des systèmes d'exploitation (processus, système de fichiers, comptes et permissions, lignes de commande) ;</li>
+          <li>Présentation d'Internet (historique, acteurs, normalisation) et de son fonctionnement (adressage, routage) ;</li>
+          <li>Les applications sur Internet : modèle client/serveur, notion de ports (DNS, HTTP), expérimentation et visualisation des échanges via les outils de développement des navigateurs ;</li>
+          <li>Installation et configuration d'un serveur Web local (gestion du service, fichiers de traces, permissions, alias...) ;</li>
+          <li>Utilisation de serveurs distants : client FTP, client SSH ;</li>
+          <li>Déploiement d'un site Web sur un serveur Web préconfiguré.</li>
+        </ul>
+        <p>CM - TP : Nicolas MAURIN</p>
+      </details>
+
+      <p style="text-align: center; margin-top: 2rem">
+        <a class="btn" href="preparation.html">Commencer : configurer mon navigateur &rarr;</a>
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      R1.13 Hébergement - BUT MMI 1 · IUT de Béziers · TP2 Visualisation du
+      modèle client/serveur et des échanges HTTP
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

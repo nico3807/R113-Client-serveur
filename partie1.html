@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partie 1 : URL, DNS et ports - R1.13 TP2</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect x=%276%27 y=%2730%27 width=%2734%27 height=%2740%27 rx=%276%27 fill=%27%232f5fd9%27/%3E%3Crect x=%2760%27 y=%2718%27 width=%2734%27 height=%2764%27 rx=%276%27 fill=%27%231c2333%27/%3E%3Cpath d=%27M42 42 H58 M52 36 L58 42 L52 48 M58 58 H42 M48 52 L42 58 L48 64%27 stroke=%27%23b5560f%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="partie1">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+      <nav class="nav-wrap">
+        <a class="brand" href="index.html"
+          ><img src="img/logo_iut.jpg" alt="" />
+          <span
+            >R1.13 - Hébergement
+            <small>TP2 · Modèle client/serveur et échanges HTTP</small></span
+          ><img src="img/logo_mmi.jpg" alt="" />
+        </a>
+        <div class="site-nav">
+          <a href="index.html" data-nav="index">Accueil</a>
+          <a href="preparation.html" data-nav="preparation">Préparation</a>
+          <a href="partie1.html" data-nav="partie1">URL, DNS, ports</a>
+          <a href="partie2.html" data-nav="partie2">HTTP</a>
+          <a href="livrable.html" data-nav="livrable">Livrable</a>
+          <a href="memo.html" data-nav="memo">Mémo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="contenu">
+      <p class="eyebrow">Partie 1 · 30 min</p>
+      <h1>Les fondations : URL, DNS et ports</h1>
+      <p class="lede">
+        Cette partie se concentre sur les concepts de base du web. Les
+        questions <strong>Q1 à Q5</strong> sont à rédiger dans la page
+        <a href="livrable.html">Livrable</a>.
+      </p>
+
+      <h2>1.1 Analyse de l'URL</h2>
+      <p>Considérer l'URL suivante, et cliquer sur chacune de ses parties :</p>
+      <p class="url-dissect" id="url-dissect"><span class="u" data-part="proto" tabindex="0" role="button">https://</span><span class="u" data-part="sous" tabindex="0" role="button">www.</span><span class="u" data-part="domaine" tabindex="0" role="button">google.fr</span><span class="u" data-part="port" tabindex="0" role="button">:443</span><span class="u" data-part="chemin" tabindex="0" role="button">/search</span><span class="u" data-part="requete" tabindex="0" role="button">?q=but+mmi</span></p>
+      <div class="url-legende">
+        <span style="--c: #b8871a">protocole</span>
+        <span style="--c: #8a5cd6">sous-domaine</span>
+        <span style="--c: #2f5fd9">nom de domaine</span>
+        <span style="--c: #c23b3b">port</span>
+        <span style="--c: #1f8a55">chemin</span>
+        <span style="--c: #b5560f">paramètres</span>
+      </div>
+      <div class="callout" id="url-explication" aria-live="polite">
+        <p>Clique sur une partie colorée de l'URL.</p>
+      </div>
+
+      <div class="q-sujet">
+        <p><span class="q-num">Q1</span>Quel est le rôle du protocole (<code>https://</code>) ? Expliquer en quoi <code>https</code> est différent du protocole <code>http</code> en matière de sécurité.</p>
+        <p class="q-lien"><a href="livrable.html#q1">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <h3>Quiz : à chaque service son port</h3>
+      <p>Un même serveur peut proposer plusieurs services ; le port désigne celui que l'on veut joindre.</p>
+      <div class="ports" id="ports">
+        <label class="port-item" data-service="http" data-port="80"><strong>HTTP (web)</strong>
+          <select><option value="">?</option><option>21</option><option>22</option><option>25</option><option>53</option><option>80</option><option>443</option></select></label>
+        <label class="port-item" data-service="https" data-port="443"><strong>HTTPS (web chiffré)</strong>
+          <select><option value="">?</option><option>21</option><option>22</option><option>25</option><option>53</option><option>80</option><option>443</option></select></label>
+        <label class="port-item" data-service="dns" data-port="53"><strong>DNS</strong>
+          <select><option value="">?</option><option>21</option><option>22</option><option>25</option><option>53</option><option>80</option><option>443</option></select></label>
+        <label class="port-item" data-service="ssh" data-port="22"><strong>SSH / SFTP</strong>
+          <select><option value="">?</option><option>21</option><option>22</option><option>25</option><option>53</option><option>80</option><option>443</option></select></label>
+        <label class="port-item" data-service="ftp" data-port="21"><strong>FTP</strong>
+          <select><option value="">?</option><option>21</option><option>22</option><option>25</option><option>53</option><option>80</option><option>443</option></select></label>
+        <label class="port-item" data-service="smtp" data-port="25"><strong>SMTP (envoi de mails)</strong>
+          <select><option value="">?</option><option>21</option><option>22</option><option>25</option><option>53</option><option>80</option><option>443</option></select></label>
+      </div>
+      <p class="barre-actions" style="margin-top: 0.8rem">
+        <button type="button" class="btn" id="ports-verifier">Vérifier</button>
+        <span class="score" id="ports-score" aria-live="polite"></span>
+      </p>
+
+      <div class="q-sujet">
+        <p><span class="q-num">Q2</span>Que représente la partie <code>443</code> à la fin du nom de domaine ? À quel autre port connu (non sécurisé) est-il traditionnellement associé ?</p>
+        <p class="q-lien"><a href="livrable.html#q2">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <h3>Qui parle à qui ?</h3>
+      <p>
+        Avance pas à pas dans ce qui se passe quand on tape une adresse dans
+        la barre du navigateur (sur un site d'exemple).
+      </p>
+      <figure class="schema">
+        <svg id="seq-svg" viewBox="0 0 800 280" role="img" aria-labelledby="seq-titre">
+          <title id="seq-titre">Trois acteurs : le navigateur à gauche, le serveur DNS au centre, le serveur web à droite. Le navigateur demande l'adresse IP au DNS, puis se connecte au serveur web sur le port 443, envoie une requête GET et reçoit une réponse 200 avec le HTML.</title>
+          <rect id="seq-nav" class="acteur" x="20" y="20" width="110" height="250" rx="12" />
+          <text x="75" y="48" text-anchor="middle" font-weight="700">💻 Navigateur</text>
+          <text x="75" y="66" text-anchor="middle" font-size="12">client</text>
+          <rect id="seq-dns" class="acteur" x="345" y="20" width="110" height="100" rx="12" />
+          <text x="400" y="48" text-anchor="middle" font-weight="700">📖 DNS</text>
+          <text x="400" y="66" text-anchor="middle" font-size="12">port 53</text>
+          <rect id="seq-web" class="acteur" x="670" y="20" width="110" height="250" rx="12" />
+          <text x="725" y="48" text-anchor="middle" font-weight="700">🗄️ Serveur</text>
+          <text x="725" y="66" text-anchor="middle" font-size="12">203.0.113.10</text>
+          <line class="fleche" x1="130" y1="70" x2="345" y2="70" />
+          <line class="fleche" x1="130" y1="90" x2="345" y2="90" />
+          <line class="fleche" x1="130" y1="170" x2="670" y2="170" />
+          <line class="fleche" x1="130" y1="210" x2="670" y2="210" />
+          <line class="fleche" x1="130" y1="250" x2="670" y2="250" />
+          <circle id="seq-paquet" class="paquet" cx="130" cy="70" r="9" />
+          <text id="seq-paquet-txt" class="paquet" x="130" y="58" text-anchor="middle" font-size="12" font-weight="700"></text>
+        </svg>
+        <div class="schema-actions">
+          <button type="button" class="btn" id="seq-suivant">▶ Étape suivante</button>
+        </div>
+        <ol class="schema-etapes" id="seq-etapes">
+          <li>Le navigateur demande au serveur DNS : « Quelle est l'adresse IP de www.mmi-demo.test ? »</li>
+          <li>Le DNS répond avec l'adresse IP du serveur : 203.0.113.10.</li>
+          <li>Le navigateur ouvre une connexion vers cette adresse, sur le port 443 (HTTPS).</li>
+          <li>Il envoie sa requête HTTP : « GET / » (donne-moi la page d'accueil).</li>
+          <li>Le serveur répond « 200 OK » avec le code HTML de la page, que le navigateur affiche.</li>
+        </ol>
+        <p class="schema-legende" id="seq-legende" aria-live="polite">Clique sur « Étape suivante ».</p>
+      </figure>
+
+      <div class="q-sujet">
+        <p><span class="q-num">Q3</span>Dans le modèle Client/Serveur, qui est le Client et qui est le Serveur dans l'exemple de cette URL (<code>https://www.google.fr:443/search?q=but+mmi</code>) ?</p>
+        <p class="q-lien"><a href="livrable.html#q3">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <h2>1.2 Le rôle du DNS</h2>
+      <div class="atelier">
+        <div>
+          <ol class="actions">
+            <li><span>Lancer votre Terminal (macOS) ou MobaXterm.</span></li>
+            <li><span>Exécuter la commande suivante : <code>ping www.wikipedia.org</code><br /><small>(si <code>ping</code> ne fonctionne pas sur votre machine, utiliser <code>nslookup www.wikipedia.org</code>)</small></span></li>
+          </ol>
+          <p>
+            Avant, entraîne-toi dans le terminal simulé (domaines d'exemple en
+            <code>.test</code>) :
+          </p>
+          <ol class="actions">
+            <li data-mission="dns-ping"><span>Lancer <code>ping www.mmi-demo.test</code> et repérer l'adresse IP affichée.</span></li>
+            <li data-mission="dns-nslookup"><span>Lancer <code>nslookup boutique.test</code>.</span></li>
+            <li data-mission="dns-inconnu"><span>Essayer un nom qui n'existe pas : <code>ping inconnu.test</code>.</span></li>
+          </ol>
+          <div class="q-sujet">
+            <p><span class="q-num">Q4</span>Quel est le premier numéro (adresse IP) affiché par la commande avant qu'elle ne commence à envoyer des paquets ?</p>
+            <p class="q-lien"><a href="livrable.html#q4">Rédiger ma réponse &rarr;</a></p>
+          </div>
+        </div>
+        <div class="atelier-terminal">
+          <div id="terminal-dns"></div>
+        </div>
+      </div>
+
+      <div class="q-sujet">
+        <p><span class="q-num">Q5</span>En se basant sur votre observation, compléter la phrase suivante :</p>
+        <p><em>« Le rôle du DNS est de traduire le nom de domaine, lisible par l'humain (www.wikipedia.org), en une ______________ (XXX.XXX.XXX.XXX), ce qui permet au ______________ de savoir où envoyer la requête HTTP. »</em></p>
+        <p class="q-lien"><a href="livrable.html#q5">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <p style="text-align: center; margin-top: 2rem">
+        <a class="btn" href="partie2.html">Partie 2 : la communication HTTP &rarr;</a>
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      R1.13 Hébergement - BUT MMI 1 · IUT de Béziers · TP2 Visualisation du
+      modèle client/serveur et des échanges HTTP
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/partie1.js"></script>
+  </body>
+</html>

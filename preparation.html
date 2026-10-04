@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Préparation - R1.13 TP2</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect x=%276%27 y=%2730%27 width=%2734%27 height=%2740%27 rx=%276%27 fill=%27%232f5fd9%27/%3E%3Crect x=%2760%27 y=%2718%27 width=%2734%27 height=%2764%27 rx=%276%27 fill=%27%231c2333%27/%3E%3Cpath d=%27M42 42 H58 M52 36 L58 42 L52 48 M58 58 H42 M48 52 L42 58 L48 64%27 stroke=%27%23b5560f%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="preparation">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+      <nav class="nav-wrap">
+        <a class="brand" href="index.html"
+          ><img src="img/logo_iut.jpg" alt="" />
+          <span
+            >R1.13 - Hébergement
+            <small>TP2 · Modèle client/serveur et échanges HTTP</small></span
+          ><img src="img/logo_mmi.jpg" alt="" />
+        </a>
+        <div class="site-nav">
+          <a href="index.html" data-nav="index">Accueil</a>
+          <a href="preparation.html" data-nav="preparation">Préparation</a>
+          <a href="partie1.html" data-nav="partie1">URL, DNS, ports</a>
+          <a href="partie2.html" data-nav="partie2">HTTP</a>
+          <a href="livrable.html" data-nav="livrable">Livrable</a>
+          <a href="memo.html" data-nav="memo">Mémo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="contenu">
+      <p class="eyebrow">Avant de commencer</p>
+      <h1>Préparation : configuration du navigateur</h1>
+      <p class="lede">
+        Avant de commencer, ouvrir votre navigateur web habituel et afficher
+        ses outils de développement : c'est là que vous observerez tous les
+        échanges entre votre navigateur et les serveurs.
+      </p>
+
+      <h2>Trouve ton raccourci</h2>
+      <div class="grid cols-2">
+        <div class="reponse" style="margin: 0">
+          <label for="prep-nav">Mon navigateur</label>
+          <select id="prep-nav" class="filtre" style="max-width: none; border-radius: 8px">
+            <option value="chromium">Chrome, Edge, Opera, Brave</option>
+            <option value="firefox">Firefox</option>
+            <option value="safari">Safari</option>
+          </select>
+        </div>
+        <div class="reponse" style="margin: 0">
+          <label for="prep-os">Mon système</label>
+          <select id="prep-os" class="filtre" style="max-width: none; border-radius: 8px">
+            <option value="win">Windows / Linux</option>
+            <option value="mac">macOS</option>
+          </select>
+        </div>
+      </div>
+      <div class="callout ok" id="prep-resultat" aria-live="polite" style="margin-top: 1rem"></div>
+
+      <p>
+        Accéder aux outils de développement de votre navigateur, au choix :
+      </p>
+      <ul>
+        <li>raccourci le plus courant : <kbd>F12</kbd> ou <kbd>Ctrl</kbd> + <kbd>Maj</kbd> + <kbd>I</kbd> (Windows/Linux) / <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>I</kbd> (macOS) ;</li>
+        <li>clic droit sur la page, puis <em>Inspecter</em>.</li>
+      </ul>
+      <p>Ouvrir ensuite l'onglet nommé <strong>« Réseau »</strong> (<em>Network</em>).</p>
+
+      <h2>À quoi ressemble l'onglet Réseau ?</h2>
+      <p>Retourne chaque carte pour découvrir les éléments que tu utiliseras pendant le TP.</p>
+      <div class="flip-grid">
+        <button type="button" class="flip">
+          <span class="flip-inner">
+            <span class="flip-face"><strong><img src="img/icone_effacer.png" alt="" style="height: 1.1em; vertical-align: -0.15em" /> Effacer</strong><small>le cercle barré</small></span>
+            <span class="flip-face flip-back">Vide la liste des requêtes. À utiliser avant chaque observation pour n'avoir que les requêtes de la page qui t'intéresse.</span>
+          </span>
+        </button>
+        <button type="button" class="flip">
+          <span class="flip-inner">
+            <span class="flip-face"><strong>La liste des requêtes</strong><small>une ligne par fichier</small></span>
+            <span class="flip-face flip-back">Chaque ligne est une requête envoyée par le navigateur : la page HTML, puis ses CSS, images, scripts… La première est en général la page elle-même.</span>
+          </span>
+        </button>
+        <button type="button" class="flip">
+          <span class="flip-inner">
+            <span class="flip-face"><strong>La colonne État</strong><small>Status</small></span>
+            <span class="flip-face flip-back">Le code de statut renvoyé par le serveur pour chaque requête (un nombre à trois chiffres).</span>
+          </span>
+        </button>
+        <button type="button" class="flip">
+          <span class="flip-inner">
+            <span class="flip-face"><strong>Les en-têtes</strong><small>Headers</small></span>
+            <span class="flip-face flip-back">En cliquant sur une requête, on voit ses en-têtes : ceux de la requête (envoyés par le navigateur) et ceux de la réponse (envoyés par le serveur).</span>
+          </span>
+        </button>
+      </div>
+
+      <div class="callout warn">
+        <p>
+          Les intitulés varient d'un navigateur à l'autre et selon la langue :
+          « Réseau » ou « Network », « État » ou « Status », « En-têtes » ou
+          « Headers ». Si la liste reste vide, recharge la page
+          (<kbd>F5</kbd>) <strong>avec l'onglet Réseau ouvert</strong> : il
+          n'enregistre que ce qui se passe pendant qu'il est affiché.
+        </p>
+      </div>
+
+      <p style="text-align: center; margin-top: 2rem">
+        <a class="btn" href="partie1.html">Onglet Réseau ouvert ? Partie 1 &rarr;</a>
+      </p>
+
+      <script>
+        (function () {
+          var nav = document.getElementById('prep-nav');
+          var os = document.getElementById('prep-os');
+          var res = document.getElementById('prep-resultat');
+          function maj() {
+            var mac = os.value === 'mac';
+            var r;
+            if (nav.value === 'safari') {
+              r = mac
+                ? '<p><strong>Safari</strong> : activer d\'abord <em>Réglages &gt; Avancés &gt; Afficher les fonctionnalités pour les développeurs web</em>, puis <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>I</kbd>. L\'onglet s\'appelle <strong>Réseau</strong>.</p>'
+                : '<p>Safari n\'existe plus sous Windows : utilise Chrome, Edge ou Firefox.</p>';
+            } else {
+              var nom = nav.value === 'firefox' ? 'Firefox' : 'Chrome / Edge';
+              r = '<p><strong>' + nom + '</strong> : ' + (mac
+                ? '<kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>I</kbd>'
+                : '<kbd>F12</kbd> ou <kbd>Ctrl</kbd> + <kbd>Maj</kbd> + <kbd>I</kbd>') +
+                ', puis l\'onglet <strong>' + (nav.value === 'firefox' ? 'Réseau' : 'Réseau (Network)') + '</strong>.' +
+                (nav.value === 'firefox' ? ' Raccourci direct vers l\'onglet Réseau : ' + (mac ? '<kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>E</kbd>' : '<kbd>Ctrl</kbd> + <kbd>Maj</kbd> + <kbd>E</kbd>') + '.' : '') + '</p>';
+            }
+            res.innerHTML = r;
+          }
+          nav.addEventListener('change', maj);
+          os.addEventListener('change', maj);
+          if (/Mac/.test(navigator.platform)) os.value = 'mac';
+          if (/Firefox\//.test(navigator.userAgent)) nav.value = 'firefox';
+          else if (/Safari\//.test(navigator.userAgent) && !/Chrome|Chromium|Edg\//.test(navigator.userAgent)) nav.value = 'safari';
+          maj();
+        })();
+      </script>
+    </main>
+
+    <footer class="site-footer">
+      R1.13 Hébergement - BUT MMI 1 · IUT de Béziers · TP2 Visualisation du
+      modèle client/serveur et des échanges HTTP
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

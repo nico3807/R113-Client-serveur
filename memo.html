@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mémo - R1.13 TP2</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect x=%276%27 y=%2730%27 width=%2734%27 height=%2740%27 rx=%276%27 fill=%27%232f5fd9%27/%3E%3Crect x=%2760%27 y=%2718%27 width=%2734%27 height=%2764%27 rx=%276%27 fill=%27%231c2333%27/%3E%3Cpath d=%27M42 42 H58 M52 36 L58 42 L52 48 M58 58 H42 M48 52 L42 58 L48 64%27 stroke=%27%23b5560f%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="memo">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+      <nav class="nav-wrap">
+        <a class="brand" href="index.html"
+          ><img src="img/logo_iut.jpg" alt="" />
+          <span
+            >R1.13 - Hébergement
+            <small>TP2 · Modèle client/serveur et échanges HTTP</small></span
+          ><img src="img/logo_mmi.jpg" alt="" />
+        </a>
+        <div class="site-nav">
+          <a href="index.html" data-nav="index">Accueil</a>
+          <a href="preparation.html" data-nav="preparation">Préparation</a>
+          <a href="partie1.html" data-nav="partie1">URL, DNS, ports</a>
+          <a href="partie2.html" data-nav="partie2">HTTP</a>
+          <a href="livrable.html" data-nav="livrable">Livrable</a>
+          <a href="memo.html" data-nav="memo">Mémo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="contenu">
+      <p class="eyebrow">Aide-mémoire</p>
+      <h1>Mémo : client/serveur, DNS, ports et HTTP</h1>
+      <p class="lede">
+        L'essentiel du TP en tableaux : à garder sous la main pour lire
+        l'onglet Réseau de n'importe quel navigateur.
+      </p>
+
+      <p>
+        <input class="filtre" id="filtre" type="search" placeholder="🔎 Filtrer : 404, cookie, port, DNS..." aria-label="Filtrer les tableaux" />
+      </p>
+
+      <h2>Vocabulaire</h2>
+      <div class="table-scroll">
+        <table data-filtrable>
+          <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr><td>Client</td><td>Programme qui envoie une requête (le navigateur, ping, un client FTP…).</td></tr>
+            <tr><td>Serveur</td><td>Programme (et machine) qui attend les requêtes et y répond.</td></tr>
+            <tr><td>URL</td><td><code>protocole://sous-domaine.domaine:port/chemin?paramètres</code></td></tr>
+            <tr><td>DNS</td><td>Domain Name System : l'« annuaire » qui traduit un nom de domaine en adresse IP.</td></tr>
+            <tr><td>Adresse IP</td><td>Numéro qui identifie une machine sur le réseau (IPv4 : quatre nombres de 0 à 255).</td></tr>
+            <tr><td>Port</td><td>Numéro qui désigne le service à joindre sur une machine.</td></tr>
+            <tr><td>Requête / réponse HTTP</td><td>Le client demande une ressource (méthode GET, POST…) ; le serveur répond avec un code de statut, des en-têtes et un corps.</td></tr>
+            <tr><td>En-tête (header)</td><td>Ligne « Nom: valeur » de métadonnées, dans la requête ou dans la réponse.</td></tr>
+            <tr><td>Cookie</td><td>Petite donnée déposée par le serveur (<code>Set-Cookie</code>) et renvoyée par le navigateur à chaque requête (<code>Cookie</code>).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Ports courants</h2>
+      <div class="table-scroll">
+        <table data-filtrable>
+          <thead><tr><th>Port</th><th>Service</th><th>Remarque</th></tr></thead>
+          <tbody>
+            <tr><td>21</td><td>FTP</td><td>Transfert de fichiers, non chiffré.</td></tr>
+            <tr><td>22</td><td>SSH / SFTP</td><td>Connexion à distance et transfert de fichiers chiffrés.</td></tr>
+            <tr><td>25</td><td>SMTP</td><td>Envoi de courriels entre serveurs.</td></tr>
+            <tr><td>53</td><td>DNS</td><td>Résolution des noms de domaine.</td></tr>
+            <tr><td>80</td><td>HTTP</td><td>Web non chiffré.</td></tr>
+            <tr><td>443</td><td>HTTPS</td><td>Web chiffré (TLS).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Codes de statut HTTP</h2>
+      <div class="table-scroll">
+        <table data-filtrable>
+          <thead><tr><th>Code</th><th>Texte</th><th>Signification</th></tr></thead>
+          <tbody>
+            <tr><td>200</td><td>OK</td><td>Succès : la ressource est renvoyée.</td></tr>
+            <tr><td>301</td><td>Moved Permanently</td><td>Redirection définitive vers l'adresse de l'en-tête <code>Location</code>.</td></tr>
+            <tr><td>304</td><td>Not Modified</td><td>La version en cache du navigateur est toujours valable.</td></tr>
+            <tr><td>403</td><td>Forbidden</td><td>Accès interdit (droits insuffisants).</td></tr>
+            <tr><td>404</td><td>Not Found</td><td>La ressource demandée n'existe pas sur le serveur.</td></tr>
+            <tr><td>500</td><td>Internal Server Error</td><td>Erreur interne du serveur.</td></tr>
+            <tr><td>503</td><td>Service Unavailable</td><td>Serveur surchargé ou en maintenance.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>En-têtes à connaître</h2>
+      <div class="table-scroll">
+        <table data-filtrable>
+          <thead><tr><th>En-tête</th><th>Sens</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><code>Host</code></td><td>requête</td><td>Nom du site demandé (un serveur peut héberger plusieurs sites).</td></tr>
+            <tr><td><code>User-Agent</code></td><td>requête</td><td>Identifie le navigateur, son moteur et le système d'exploitation du client.</td></tr>
+            <tr><td><code>Accept</code></td><td>requête</td><td>Types de contenus que le client sait traiter.</td></tr>
+            <tr><td><code>Cookie</code></td><td>requête</td><td>Renvoie au serveur les cookies qu'il avait déposés.</td></tr>
+            <tr><td><code>Content-Type</code></td><td>réponse</td><td>Type (MIME) du contenu renvoyé : <code>text/html</code>, <code>text/css</code>, <code>image/png</code>…</td></tr>
+            <tr><td><code>Content-Length</code></td><td>réponse</td><td>Taille du contenu, en octets.</td></tr>
+            <tr><td><code>Set-Cookie</code></td><td>réponse</td><td>Demande au navigateur de mémoriser un cookie.</td></tr>
+            <tr><td><code>Location</code></td><td>réponse</td><td>Nouvelle adresse, lors d'une redirection (3xx).</td></tr>
+            <tr><td><code>Server</code></td><td>réponse</td><td>Logiciel serveur utilisé (Apache, nginx…).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Commandes et raccourcis</h2>
+      <div class="table-scroll">
+        <table data-filtrable>
+          <thead><tr><th>Action</th><th>Commande / raccourci</th></tr></thead>
+          <tbody>
+            <tr><td>Tester la joignabilité d'une machine (et voir son IP)</td><td><code data-copie>ping www.wikipedia.org</code></td></tr>
+            <tr><td>Interroger directement le DNS</td><td><code data-copie>nslookup www.wikipedia.org</code></td></tr>
+            <tr><td>Arrêter un ping sans fin (macOS / Linux)</td><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td></tr>
+            <tr><td>Ouvrir les outils de développement (Windows / Linux)</td><td><kbd>F12</kbd> ou <kbd>Ctrl</kbd> + <kbd>Maj</kbd> + <kbd>I</kbd></td></tr>
+            <tr><td>Ouvrir les outils de développement (macOS)</td><td><kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>I</kbd></td></tr>
+            <tr><td>Recharger en ignorant le cache</td><td><kbd>Ctrl</kbd> + <kbd>F5</kbd> (macOS : <kbd>Cmd</kbd> + <kbd>Maj</kbd> + <kbd>R</kbd>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Quiz : ports, codes et en-têtes</h2>
+      <div class="question" id="quiz-cmd">
+        <p class="q-titre"><span class="q-compte"></span></p>
+        <p class="q-enonce"></p>
+        <form>
+          <input type="text" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Réponse" placeholder="Ta réponse (nombre, commande ou en-tête)" style="font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" />
+          <button class="btn" type="submit">Vérifier</button>
+        </form>
+        <p class="feedback" aria-live="polite"></p>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      R1.13 Hébergement - BUT MMI 1 · IUT de Béziers · TP2 Visualisation du
+      modèle client/serveur et des échanges HTTP
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/memo.js"></script>
+  </body>
+</html>

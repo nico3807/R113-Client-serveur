@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partie 2 : la communication HTTP - R1.13 TP2</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect x=%276%27 y=%2730%27 width=%2734%27 height=%2740%27 rx=%276%27 fill=%27%232f5fd9%27/%3E%3Crect x=%2760%27 y=%2718%27 width=%2734%27 height=%2764%27 rx=%276%27 fill=%27%231c2333%27/%3E%3Cpath d=%27M42 42 H58 M52 36 L58 42 L52 48 M58 58 H42 M48 52 L42 58 L48 64%27 stroke=%27%23b5560f%27 stroke-width=%275%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body data-page="partie2">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+      <nav class="nav-wrap">
+        <a class="brand" href="index.html"
+          ><img src="img/logo_iut.jpg" alt="" />
+          <span
+            >R1.13 - Hébergement
+            <small>TP2 · Modèle client/serveur et échanges HTTP</small></span
+          ><img src="img/logo_mmi.jpg" alt="" />
+        </a>
+        <div class="site-nav">
+          <a href="index.html" data-nav="index">Accueil</a>
+          <a href="preparation.html" data-nav="preparation">Préparation</a>
+          <a href="partie1.html" data-nav="partie1">URL, DNS, ports</a>
+          <a href="partie2.html" data-nav="partie2">HTTP</a>
+          <a href="livrable.html" data-nav="livrable">Livrable</a>
+          <a href="memo.html" data-nav="memo">Mémo</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="contenu">
+      <p class="eyebrow">Partie 2 · 60 min</p>
+      <h1>La communication HTTP</h1>
+      <p class="lede">
+        Nous allons analyser les requêtes et les réponses HTTP pour comprendre
+        les échanges. Les questions <strong>Q6 à Q10</strong> sont à rédiger
+        dans la page <a href="livrable.html">Livrable</a>.
+      </p>
+
+      <h2>S'entraîner : le navigateur d'exemple</h2>
+      <p>
+        Ce faux navigateur reproduit l'onglet « Réseau » des outils de
+        développement sur des sites d'exemple. Réalise les six actions, puis
+        refais les observations du sujet dans <strong>ton vrai
+        navigateur</strong>.
+      </p>
+      <ol class="actions">
+        <li data-mission="r-effacer"><span>Vider la liste avec l'icône <img src="img/icone_effacer.png" alt="Effacer" style="height: 1.1em; vertical-align: -0.15em" /> « Effacer ».</span></li>
+        <li data-mission="r-200"><span>Ouvrir la page d'accueil d'un site d'exemple.</span></li>
+        <li data-mission="r-404"><span>Demander une page qui n'existe pas.</span></li>
+        <li data-mission="r-headers"><span>Cliquer sur la requête d'une page réussie et lire ses en-têtes.</span></li>
+        <li data-mission="r-setcookie"><span>Trouver un en-tête <code>Set-Cookie</code> sur la boutique.</span></li>
+        <li data-mission="r-cookie"><span>Ajouter un article au panier, puis observer l'en-tête <code>Cookie</code> de la nouvelle requête.</span></li>
+      </ol>
+
+      <div class="devsim" id="devsim">
+        <div class="devsim-barre">
+          <span aria-hidden="true">🌐</span>
+          <form>
+            <input type="text" value="https://www.mmi-demo.test/" spellcheck="false" aria-label="Adresse" />
+            <button class="btn" type="submit">Aller</button>
+          </form>
+        </div>
+        <div class="devsim-favoris">
+          <span>Sites d'exemple :</span>
+          <button type="button" data-aller="https://www.mmi-demo.test/">mmi-demo.test</button>
+          <button type="button" data-aller="https://www.mmi-demo.test/cette-page-nexiste-pas-1234">…/cette-page-nexiste-pas-1234</button>
+          <button type="button" data-aller="https://www.mmi-demo.test/ancienne-page">…/ancienne-page</button>
+          <button type="button" data-aller="https://boutique.test/">boutique.test</button>
+        </div>
+        <div class="devsim-page" aria-live="polite">
+          <p>Clique sur « Aller » ou sur un site d'exemple.</p>
+        </div>
+        <div class="devtools">
+          <div class="devtools-onglets" aria-hidden="true">
+            <span>Éléments</span><span>Console</span><span>Sources</span><span class="on">Réseau</span><span>Performances</span>
+          </div>
+          <div class="devtools-outils">
+            <button type="button" class="effacer" title="Effacer"><img src="img/icone_effacer.png" alt="Effacer la liste des requêtes" /></button>
+            <span data-compteur></span>
+          </div>
+          <div class="devtools-corps">
+            <div class="devtools-liste">
+              <table>
+                <thead><tr><th>Nom</th><th>État</th><th>Méthode</th><th>Type</th><th>Taille</th></tr></thead>
+                <tbody></tbody>
+              </table>
+              <p class="devtools-vide">Aucune requête. Charge une page pour voir les échanges.</p>
+            </div>
+            <div class="devtools-detail" aria-live="polite">
+              <p class="devtools-vide">Clique sur une requête pour voir ses en-têtes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h2>2.1 Requête simple et statuts 200 / 404</h2>
+      <ol class="actions">
+        <li><span>S'assurer que l'onglet « Réseau » est ouvert. Cliquer sur l'icône « Effacer » <img src="img/icone_effacer.png" alt="" style="height: 1.1em; vertical-align: -0.15em" /> (un cercle barré) pour vider la liste.</span></li>
+        <li><span>Se rendre sur la page d'accueil d'un site web (ex : <code>google.com</code>).</span></li>
+      </ol>
+      <div class="q-sujet">
+        <p><span class="q-num">Q6</span>Cliquer sur la première requête de la liste (souvent le nom du domaine). Quel est le code de statut (<em>Status Code</em> ou code d'état) affiché ? À quoi correspond ce code ?</p>
+        <p class="q-lien"><a href="livrable.html#q6">Rédiger ma réponse &rarr;</a></p>
+      </div>
+      <p>
+        Modifier maintenant l'URL dans la barre d'adresse pour accéder à une
+        page qui n'existe manifestement pas (exemple :
+        <code>google.com/cette-page-nexiste-pas-1234</code>).
+      </p>
+      <div class="q-sujet">
+        <p><span class="q-num">Q7</span>Regarder la nouvelle requête principale dans l'onglet « Réseau ». Quel code de statut le serveur a-t-il renvoyé cette fois ? Quelle est la signification de ce code pour le client (votre navigateur) ?</p>
+        <p class="q-lien"><a href="livrable.html#q7">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <h3>Les familles de codes de statut</h3>
+      <p>Le premier chiffre suffit à savoir qui a « raison ». Retourne les cartes :</p>
+      <div class="flip-grid">
+        <button type="button" class="flip"><span class="flip-inner">
+          <span class="flip-face"><strong>1xx</strong><small>information</small></span>
+          <span class="flip-face flip-back">Réponses provisoires : « continue », « je change de protocole »… Rares dans l'onglet Réseau.</span></span></button>
+        <button type="button" class="flip"><span class="flip-inner">
+          <span class="flip-face"><strong>2xx</strong><small>succès</small></span>
+          <span class="flip-face flip-back">La requête a réussi. Le plus courant de tous les codes en fait partie.</span></span></button>
+        <button type="button" class="flip"><span class="flip-inner">
+          <span class="flip-face"><strong>3xx</strong><small>redirection</small></span>
+          <span class="flip-face flip-back">La ressource est ailleurs : l'en-tête <code>Location</code> indique où aller (301 = déménagement définitif). Essaie « …/ancienne-page ».</span></span></button>
+        <button type="button" class="flip"><span class="flip-inner">
+          <span class="flip-face"><strong>4xx</strong><small>erreur du client</small></span>
+          <span class="flip-face flip-back">La demande est incorrecte : ressource introuvable, accès interdit (403)… C'est la requête qui pose problème.</span></span></button>
+        <button type="button" class="flip"><span class="flip-inner">
+          <span class="flip-face"><strong>5xx</strong><small>erreur du serveur</small></span>
+          <span class="flip-face flip-back">La demande était correcte mais le serveur a échoué (500 = erreur interne, 503 = service indisponible).</span></span></button>
+      </div>
+
+      <h2>2.2 Analyse des en-têtes (Headers)</h2>
+      <p>Les en-têtes (<em>headers</em>) contiennent des métadonnées cruciales pour la communication.</p>
+      <ol class="actions">
+        <li><span>Effacer à nouveau l'onglet « Réseau ».</span></li>
+        <li><span>Se rendre sur la page <code>https://www.w3.org/</code>.</span></li>
+        <li><span>Cliquer sur la première requête (<code>w3.org</code>) dans l'onglet Réseau, puis sur la section « Headers » (En-têtes).</span></li>
+      </ol>
+      <div class="q-sujet">
+        <p><span class="q-num">Q8</span>Localiser l'en-tête de requête (<em>Request Headers</em>) nommé <code>User-Agent</code>. Quelle information transmet cet en-tête au serveur ?</p>
+        <p class="q-lien"><a href="livrable.html#q8">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <h3>Décode TON User-Agent</h3>
+      <p>
+        Voici l'en-tête <code>User-Agent</code> que ton navigateur envoie en
+        ce moment même à chaque serveur. Clique sur chaque morceau :
+      </p>
+      <div class="ua" id="ua"></div>
+      <p class="callout" id="ua-explication" aria-live="polite">Clique sur un morceau du User-Agent.</p>
+
+      <div class="q-sujet">
+        <p><span class="q-num">Q9</span>Localiser l'en-tête de réponse (<em>Response Headers</em>) nommé <code>Content-Type</code>. Quelle information essentielle donne cet en-tête au navigateur pour qu'il puisse afficher la page correctement ?</p>
+        <p class="q-lien"><a href="livrable.html#q9">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <h2>2.3 Le rôle des cookies</h2>
+      <ol class="actions">
+        <li><span>Se rendre sur un site de e-commerce ou un réseau social (où vous n'êtes pas connecté).</span></li>
+        <li><span>Dans l'onglet Réseau, faire défiler les requêtes et regarder la section <code>Set-Cookie</code> dans les en-têtes de réponse.</span></li>
+      </ol>
+      <div class="callout">
+        <p>
+          Dans le navigateur d'exemple, ouvre <strong>boutique.test</strong> :
+          compare l'en-tête de réponse <code>Set-Cookie</code> de la page avec
+          l'en-tête de requête <code>Cookie</code> envoyé quand tu ajoutes un
+          article au panier. Que remarques-tu ?
+        </p>
+      </div>
+      <div class="q-sujet">
+        <p><span class="q-num">Q10</span>Quel est le rôle principal d'un cookie qui est envoyé par le serveur au client via l'en-tête <code>Set-Cookie</code> ? Pourquoi sont-ils essentiels pour la connexion utilisateur ou le suivi de panier ?</p>
+        <p class="q-lien"><a href="livrable.html#q10">Rédiger ma réponse &rarr;</a></p>
+      </div>
+
+      <p style="text-align: center; margin-top: 2rem">
+        <a class="btn" href="livrable.html">Préparer mon livrable &rarr;</a>
+      </p>
+    </main>
+
+    <footer class="site-footer">
+      R1.13 Hébergement - BUT MMI 1 · IUT de Béziers · TP2 Visualisation du
+      modèle client/serveur et des échanges HTTP
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/partie2.js"></script>
+  </body>
+</html>
